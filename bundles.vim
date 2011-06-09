@@ -33,3 +33,7 @@ Bundle 'LustyJuggler'
 Bundle 'ZoomWin'
 " non github repos
 "Bundle 'git://git.wincent.com/command-t.git'
+"After updating/install Bundles, you must build Command-T C externsions
+"using
+"cd ~/.vim/bundle/command-t
+"rake make
