@@ -25,7 +25,6 @@ Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'tpope/vim-haml'
 Bundle 'chrismetcalf/vim-yankring'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 " vim-scripts repos
 Bundle 'actionscript.vim'
 Bundle 'bufexplorer.zip'
