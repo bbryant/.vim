@@ -46,9 +46,6 @@ set whichwrap=h,l,~,[,]
 " Fix vertsplit window sizing
 nmap <C-Left> <C-W>><C-W>>
 nmap <C-Right> <C-W><<C-W><
-" insert new line without going into insert mode
-nnoremap <Enter> o<ESC>
-nnoremap <S-Enter> :put!=''<CR>
 "allow deleting selection without updating the clipboard (yank buffer)
 vnoremap x "_x
 vnoremap X "_X
@@ -132,14 +129,9 @@ if has("gui_macvim")
   set fuoptions=maxhorz,maxvert
 
   " Command-T for CommandT
-  macmenu &File.New\ Tab key=<nop>
   map <leader>f :CommandT<CR>
   imap <leader>f <Esc>:CommandT<CR>
-  macmenu &File.New\ Tab key=<D-T>
   
-  " Command-e for ConqueTerm
-  map <D-e> :call StartTerm()<CR>
-
   " Command-/ to toggle comments
   map <D-/> <plug>NERDCommenterToggle<CR>
 
@@ -152,11 +144,6 @@ endif
 set guioptions-=T
 " Default gui color scheme
 color ir_black
-" ConqueTerm wrapper
-function StartTerm()
-  execute 'ConqueTerm ' . $SHELL . ' --login'
-  setlocal listchars=tab:\ \ 
-endfunction
 " Project Tree
 autocmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
 autocmd FocusGained * call s:UpdateNERDTree()

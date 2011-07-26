@@ -1,4 +1,4 @@
-"vim -u bundles.vim +BundleInstall +q :use this for first time bundle import
+"~> vim -u ~/.vim/bundles.vim +BundleInstall +q :use this for first time bundle import
 set nocompatible                                            " We don't want vi compatibility.
 filetype off                                                " Temporarily turn off filetype detection to safely load Pathogen.
 set rtp+=~/.vim/bundle/vundle/
@@ -7,8 +7,7 @@ Bundle 'gmarik/vundle'
 " original repos on github
 Bundle 'mileszs/ack.vim'
 Bundle 'wincent/Command-T'
-Bundle 'rosenfeld/conque-term'
-Bundle 'Raimondi/delimitMate'
+"Bundle 'Raimondi/delimitMate'
 Bundle 'ervandew/supertab'
 Bundle 'edsono/vim-matchit'
 Bundle 'scrooloose/nerdcommenter'
@@ -32,7 +31,3 @@ Bundle 'LustyJuggler'
 Bundle 'ZoomWin'
 " non github repos
 "Bundle 'git://git.wincent.com/command-t.git'
-"After updating/install Bundles, you must build Command-T C externsions
-"using
-"cd ~/.vim/bundle/command-t
-"rake make
