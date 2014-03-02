@@ -1,12 +1,79 @@
 autocmd!
-"To load Vundle
-source bundles.vim
 
-filetype plugin indent on                                   " enable filetype-sensitive plugins and indenting
+set nocompatible               " Be iMproved
+
+if has('vim_starting')
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+call neobundle#rc(expand('~/.vim/bundle/'))
+
+" Let NeoBundle manage NeoBundle
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" Recommended to install
+" After install, turn shell ~/.vim/bundle/vimproc, (n,g)make -f your_machines_makefile
+NeoBundle 'Shougo/vimproc'
+
+NeoBundle 'bling/vim-airline'
+NeoBundle 'edsono/vim-matchit'
+NeoBundle 'rking/ag.vim'
+NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'nono/jquery.vim'
+NeoBundle 'tpope/vim-endwise'
+NeoBundle 'tpope/vim-rails'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-unimpaired'
+NeoBundle 'tpope/vim-haml'
+"NeoBundle 'vim-scripts/YankRing.vim'
+NeoBundle 'kien/rainbow_parentheses.vim'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'bufexplorer.zip'
+NeoBundle 'ervandew/supertab'
+"NeoBundle 'Shougo/neocomplete.vim'
+"NeoBundle 'LustyJuggler'
+NeoBundle 'ZoomWin'
+NeoBundle 'vim-ruby/vim-ruby'
+NeoBundle 'chrisbra/csv.vim'
+NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'gregsexton/gitv'
+NeoBundle 'tpope/vim-fugitive'
+"NeoBundle 'mbbill/undotree'
+NeoBundle 'sjl/gundo.vim'
+NeoBundle 'maxbrunsfeld/vim-yankstack'
+
+" vim-scripts repos
+"NeoBundle 'FuzzyFinder'
+" Non github repos
+"NeoBundle 'git://git.wincent.com/command-t.git'
+" gist repos
+"NeoBundle 'gist:Shougo/656148', {
+"      \ 'name': 'everything.vim',
+"      \ 'script_type': 'plugin'}
+" Non git repos
+"NeoBundle 'http://svn.macports.org/repository/macports/contrib/mpvim/'
+
+filetype plugin indent on     " Required!
+"
+" Brief help
+" :NeoBundleList          - list configured bundles
+" :NeoBundleInstall(!)    - install(update) bundles
+" :NeoBundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+
+" Installation check.
+NeoBundleCheck
+
 set encoding=utf-8                                          " Set encoding
 syntax on                                                   " syntax highlighting on
+
 set hidden                                                  " buffers are hidden and not closed
-set backspace=2                                             " full backspacing capabilities (indent,eol,start)
 set backspace=indent,eol,start                              " backspace for dummys
 set linespace=0                                             " no extra spaces between rows
 set showmatch                                               " show matching brackets
@@ -17,28 +84,42 @@ set scrolloff=3                                             " minimum lines to k
 set autoread                                                " reload file if vim detects it changed elsewhere
 set clipboard+=unnamed                                      " Yanks go on clipboard instead.
 set history=256                                             " Number of things to remember in history.
-set undolevels=100                                          " Number of undo levels to keep
+set undolevels=1000                                         " Number of undo levels to keep
+if has("persistent_undo")
+    set undodir = "~/.undodir/"
+    set undofile
+endif
 set number                                                  " Line numbers on
 set timeoutlen=250                                          " Time to wait after ESC (default causes an annoying delay)
-set modeline                                                " modeline overrides
-set modelines=10
+set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set splitbelow splitright                                   "new window open below and to the right"
 set linebreak                                               "line wraps at word
 " Keymappings ----------------------------------------------------------- 
 let mapleader=","
+let g:EasyMotion_leader_key = '<Space>'
+"nnoremap <F5> :UndotreeToggle<cr>
+nnoremap <F5> :GundoToggle<CR>
 noremap j gj
 noremap k gk
+nmap <CR> o<Esc>k
+" Map the arrow keys to be based on display lines, not physical lines
+map <Down> gj
+map <Up> gk
 nmap <silent> <leader><space> :nohlsearch<CR>
 map <leader>d :execute 'NERDTreeToggle'<CR>
-map <leader>j :execute 'LustyJuggler'<CR>
-map <leader>r :execute 'YRShow'<CR>
-nmap <leader>w :w!<cr>
+"map <leader>r :execute 'YRShow'<CR>
+map <leader>f :execute "CtrlP"<CR>
+"map <leader>b :execute 'CtrlPBuffer'<cr>
+nmap <leader>w :w!<CR>
 ino fj <esc>
 cno fj <c-c>
+vno fj <esc>
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+" Adjust viewports to the same size
+map <Leader>= <C-w>=
 " have the h and l cursor keys wrap between lines (like <Space> and <BkSpc> do
 " by default), and ~ covert case over line breaks; also have the cursor keys
 " wrap in insert mode:
@@ -50,31 +131,36 @@ nmap <C-Right> <C-W><<C-W><
 vnoremap x "_x
 vnoremap X "_X
 " Formatting -----------------------------------------------------------
-set tabstop=4                                               " Tabs are 2 spaces
-set shiftwidth=4                                            " Tabs under smart indent
-set softtabstop=4
+set tabstop=2                                               " Tabs are 2 spaces
+set shiftwidth=2                                            " Tabs under smart indent
+set softtabstop=2
 set expandtab
 set smarttab
 set shiftround                                              " when at 3 spaces, hitting tab goes to 4, not 5
 " when using list, keep tabs at their full width and display `arrows':
 " (Character 187 is a right double-chevron, and 183 a mid-dot.)
-execute 'set listchars+=tab:' . nr2char(187) . nr2char(183)
+"execute 'set listchars+=tab:' . nr2char(187) . nr2char(183)
 set formatoptions=tcqr
 set autoindent
 set smartindent
+" Code Folding ---------------------------------------------------------
+set foldmethod=indent                                       "fold based on indent
+set foldnestmax=20                                          "deepest fold levels
+set nofoldenable                                            "dont fold by default
+set foldlevel=1                                             "this is just what i use
 " statusline -----------------------------------------------------------
 set laststatus=2                                            " Always show status line.
-set cmdheight=2                                             " command line height
-set ruler                                                   " show cursor position in status line
-set showmode                                                " show mode in status line
+"set cmdheight=2                                             " command line height
+"set ruler                                                   " show cursor position in status line
+"set showmode                                                " show mode in status line
 " Custom status line
-set statusline=                                             " first, clear the status line
-set statusline=%<\                                          " cut at start
-set statusline+=%F\                                         " full path
-set statusline+=%(%y%)\                                     " file type
-set statusline+=%=                                          " seperate between right- and left-aligned
-set statusline+=%([%M%R%H%W]%)\                             " buffer number, and flags
-set statusline+=%((%l/%L)%),%c%V\                           " vertical line number, horizontal line number 
+"set statusline=                                             " first, clear the status line
+"set statusline=%<\                                          " cut at start
+"set statusline+=%F\                                         " full path
+"set statusline+=%(%y%)\                                     " file type
+"set statusline+=%=                                          " seperate between right- and left-aligned
+"set statusline+=%([%M%R%H%W]%)\                             " buffer number, and flags
+"set statusline+=%((%l/%L)%),%c%V\                           " vertical line number, horizontal line number 
 "Searching ------------------------------------------------------------
 set hlsearch                                                " highlight all search results
 set incsearch                                               " increment search
@@ -92,27 +178,17 @@ map <leader>b :BufExplorer<cr>
 " Tagbar --------------------------------------------------fhmw
 map <Leader>t :TagbarOpenAutoClose<CR>
 let g:tagbar_left = 1                                       " Open tagbar on the left
-" Command-T ----------------------------------------------------------
-let g:CommandTMaxHeight = 30 
-set wildignore+=.git
-map <leader>f :execute "CommandT"<cr>
+let g:tagbar_sort = 0
 " ZoomWin configuration --------------------------------------------------
 map <Leader><Leader> :ZoomWin<CR>
 " CTags ----------------------------------------------------------------
 map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
 " Thorfile, Rakefile and Gemfile are Ruby ------------------------------
 au BufRead,BufNewFile {Gemfile,Rakefile,Thorfile,config.ru}    set ft=ruby
-" Unimpaired configuration -------------------------------------
-" Bubble single lines
-nmap <C-Up> [e
-nmap <C-Down> ]e
-" Bubble multiple lines
-vmap <C-Up> [egv
-vmap <C-Down> ]egv
 "SuperTab 
 let g:SuperTabDefaultCompletionType = "context""
 " Visual ---------------------------------------------------------------
-set cursorline                                              " highlight current line
+"set cursorline                                              " highlight current line
 set title
 set visualbell                                              " No blinking .
 set noerrorbells                                            " No noise.
@@ -121,44 +197,64 @@ set tm=500
 " GUI specific ----------------------------------------------------------
 set mousehide                                               " Hide mouse after chars typed
 set mouse=a                                                 " Mouse in all modes
-set guifont=Monaco:h13
+set guifont=Source\ Code\ Pro\ for\ Powerline:h14
 set guicursor+=a:blinkon0
 
-if has("gui_macvim")
+"Default colorscheme
+set background=dark
+let g:solarized_termcolors=256
+color solarized
+
+if has("gui_macvim") && has("gui_running")
+
+  set macmeta
+
   " Fullscreen takes up entire screen
   set fuoptions=maxhorz,maxvert
 
-  " Command-T for CommandT
-  map <leader>f :CommandT<CR>
-  imap <leader>f <Esc>:CommandT<CR>
-  
   " Command-/ to toggle comments
-  map <D-/> <plug>NERDCommenterToggle<CR>
+  map <D-/> <plug>NERDCommenterToggle
 
-  " Command-][ to increase/decrease indentation
+  " Start without the toolbar
+  set guioptions-=T
+
+  " Map command-[ and command-] to indenting or outdenting
+  " while keeping the original selection in visual mode
   vmap <D-]> >gv
   vmap <D-[> <gv
 
+  nmap <D-]> >>
+  nmap <D-[> <<
+
+  omap <D-]> >>
+  omap <D-[> <<
+
+  imap <D-]> <Esc>>>i
+  imap <D-[> <Esc><<i
+
+  " Bubble single lines
+  nmap <D-Up> [e
+  nmap <D-Down> ]e
+  nmap <D-k> [e
+  nmap <D-j> ]e
+
+  " Bubble multiple lines
+  vmap <D-Up> [egv
+  vmap <D-Down> ]egv
+  vmap <D-k> [egv
+  vmap <D-j> ]egv
+
+  "airline font patch
+  let g:airline_powerline_fonts = 1
+
 endif
-" Start without the toolbar
-set guioptions-=T
-" Default gui color scheme
-color ir_black
+
 " Project Tree
+let NERDTreeHijackNetrw=1
+
 autocmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
 autocmd FocusGained * call s:UpdateNERDTree()
-autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
-" Close all open buffers on entering a window if the only
-" buffer that's left is the NERDTree buffer
-function s:CloseIfOnlyNerdTreeLeft()
-  if exists("t:NERDTreeBufName")
-    if bufwinnr(t:NERDTreeBufName) != -1
-      if winnr("$") == 1
-        q
-      endif
-    endif
-  endif
-endfunction
+
 " If the parameter is a directory, cd into it
 function s:CdIfDirectory(directory)
   let explicitDirectory = isdirectory(a:directory)
@@ -198,85 +294,26 @@ function s:UpdateNERDTree(...)
     endif
   endif
 
-  if exists(":CommandTFlush") == 2
-    CommandTFlush
-  endif
-endfunction
-" Utility functions to create file commands
-function s:CommandCabbr(abbreviation, expansion)
-  execute 'cabbrev ' . a:abbreviation . ' <c-r>=getcmdpos() == 1 && getcmdtype() == ":" ? "' . a:expansion . '" : "' . a:abbreviation . '"<CR>'
 endfunction
 
-function s:FileCommand(name, ...)
-  if exists("a:1")
-    let funcname = a:1
-  else
-    let funcname = a:name
-  endif
-
-  execute 'command -nargs=1 -complete=file ' . a:name . ' :call ' . funcname . '(<f-args>)'
-endfunction
-
-function s:DefineCommand(name, destination)
-  call s:FileCommand(a:destination)
-  call s:CommandCabbr(a:name, a:destination)
-endfunction
-" Public NERDTree-aware versions of builtin functions
-function ChangeDirectory(dir, ...)
-  execute "cd " . a:dir
-  let stay = exists("a:1") ? a:1 : 1
-
-  NERDTree
-
-  if !stay
-    wincmd p
-  endif
-endfunction
-
-function Touch(file)
-  execute "!touch " . a:file
-  call s:UpdateNERDTree()
-endfunction
-
-function Remove(file)
-  let current_path = expand("%")
-  let removed_path = fnamemodify(a:file, ":p")
-
-  if (current_path == removed_path) && (getbufvar("%", "&modified"))
-    echo "You are trying to remove the file you are editing. Please close the buffer first."
-  else
-    execute "!rm " . a:file
-  endif
-
-  call s:UpdateNERDTree()
-endfunction
-
-function Mkdir(file)
-  execute "!mkdir " . a:file
-  call s:UpdateNERDTree()
-endfunction
-
-function Edit(file)
-  if exists("b:NERDTreeRoot")
-    wincmd p
-  endif
-
-  execute "e " . a:file
-
-ruby << RUBY
-  destination = File.expand_path(VIM.evaluate(%{system("dirname " . a:file)}))
-  pwd         = File.expand_path(Dir.pwd)
-  home        = pwd == File.expand_path("~")
-
-  if home || Regexp.new("^" + Regexp.escape(pwd)) !~ destination
-    VIM.command(%{call ChangeDirectory(system("dirname " . a:file), 0)})
-  end
-RUBY
-endfunction
-
-" Define the NERDTree-aware aliases
-call s:DefineCommand("cd", "ChangeDirectory")
-call s:DefineCommand("touch", "Touch")
-call s:DefineCommand("rm", "Remove")
-call s:DefineCommand("e", "Edit")
-call s:DefineCommand("mkdir", "Mkdir")
+" Rainbox Parentheses {{{
+nnoremap <leader>R :RainbowParenthesesToggle<cr>
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+let g:rbpt_max = 16
